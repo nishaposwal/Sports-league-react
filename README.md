@@ -203,8 +203,8 @@ This project is licensed under the MIT License.
 ## 🙏 Acknowledgments
 
 - **[TheSportsDB API](https://www.thesportsdb.com/)**: Provides comprehensive sports data and league information
-- **[React Query](https://tanstack.com/query/latest)**: For efficient data fetching and caching
 - **[Firebase Hosting](https://firebase.google.com/docs/hosting)**: For reliable and fast hosting
 - **[Styled Components](https://styled-components.com/)**: For component-based styling
 - **[Create React App](https://create-react-app.dev/)**: For the initial project setup and build configuration
 - **[TypeScript](https://www.typescriptlang.org/)**: For type safety and better developer experience
+
