@@ -50,4 +50,5 @@ export interface HeaderProps {
   selectedSport: string;
   onSportChange: (value: string) => void;
   sports: string[];
+  isSearching?: boolean;
 } 

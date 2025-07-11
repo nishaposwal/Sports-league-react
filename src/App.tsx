@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { useLeagues } from './hooks/useLeagues';
+import { useDebounce } from './hooks/useDebounce';
 import { applyFilters, getUniqueSports } from './utils/filters';
 import Header from './components/Header';
 import LeagueGrid from './components/LeagueGrid';
@@ -60,6 +61,12 @@ const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedSport, setSelectedSport] = useState<string>('');
   
+  // Debounce search term to prevent excessive filtering
+  const debouncedSearchTerm = useDebounce(searchTerm, 300); // 300ms delay
+  
+  // Check if search is being debounced (when searchTerm differs from debouncedSearchTerm)
+  const isSearching = searchTerm !== debouncedSearchTerm;
+  
   const { data: leagues, isLoading, error, refetch } = useLeagues();
   
   // Get unique sports for the dropdown
@@ -67,11 +74,11 @@ const App: React.FC = () => {
     return getUniqueSports(leagues || []);
   }, [leagues]);
   
-  // Apply filters to leagues
+  // Apply filters to leagues using debounced search term
   const filteredLeagues = useMemo((): League[] => {
     if (!leagues) return [];
-    return applyFilters(leagues, searchTerm, selectedSport);
-  }, [leagues, searchTerm, selectedSport]);
+    return applyFilters(leagues, debouncedSearchTerm, selectedSport);
+  }, [leagues, debouncedSearchTerm, selectedSport]);
   
   // Handle search input change
   const handleSearchChange = (value: string): void => {
@@ -112,11 +119,12 @@ const App: React.FC = () => {
         selectedSport={selectedSport}
         onSportChange={handleSportChange}
         sports={sports}
+        isSearching={isSearching}
       />
       <LeagueGrid
         leagues={filteredLeagues}
         isLoading={isLoading}
-        searchTerm={searchTerm}
+        searchTerm={debouncedSearchTerm}
         selectedSport={selectedSport}
       />
       <CacheStatus />

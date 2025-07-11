@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { HeaderProps } from '../types/api';
 import { clearApiCache } from '../utils/cache';
 
+
+
 const HeaderContainer = styled.header`
   background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
   padding: 20px 0;
@@ -53,6 +55,30 @@ const SearchContainer = styled.div`
   position: relative;
   flex: 1;
   max-width: 400px;
+`;
+
+const SearchIndicator = styled.div<{ isSearching?: boolean }>`
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  ${props => props.isSearching && `
+    opacity: 1;
+  `}
+  
+  @keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+  }
 `;
 
 const SearchInput = styled.input`
@@ -127,7 +153,8 @@ const Header: React.FC<HeaderProps> = ({
   onSearchChange, 
   selectedSport, 
   onSportChange, 
-  sports 
+  sports,
+  isSearching = false
 }) => {
   const handleClearAll = () => {
     // Clear search and sport filters
@@ -149,13 +176,14 @@ const Header: React.FC<HeaderProps> = ({
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
             />
+            <SearchIndicator isSearching={isSearching} />
           </SearchContainer>
           <SportSelect
             value={selectedSport}
             onChange={(e) => onSportChange(e.target.value)}
           >
             <option value="">All Sports</option>
-            {sports.map((sport) => (
+            {sports.map((sport: string) => (
               <option key={sport} value={sport}>
                 {sport}
               </option>
