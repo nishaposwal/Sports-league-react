@@ -203,13 +203,13 @@ src/
 - **Utility Tests**: Tests for utility functions and helpers
 - **Integration Tests**: End-to-end functionality testing
 
-### Code Quality Tools (Chat gpt + cursur for implementation support)
+### Code Quality Tools (Chat gpt + cursor for implementation support)
 - **ESLint**: Code linting with TypeScript support
 - **Prettier**: Automatic code formatting
 - **Husky**: Git hooks for pre-commit automation
 - **Lint-staged**: Efficient linting of staged files only
 
-### Pre-commit Workflow (Chat gpt + cursur for implementation support)
+### Pre-commit Workflow (Chat gpt + cursor for implementation support)
 - **Automatic Formatting**: Code is formatted with Prettier before commit
 - **Lint Checking**: ESLint runs and auto-fixes issues
 - **Test Execution**: All tests must pass before commit
