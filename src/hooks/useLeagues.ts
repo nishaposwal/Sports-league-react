@@ -11,7 +11,10 @@ export const useLeagues = () => {
   });
 };
 
-export const useSeasonBadge = (leagueId: string, shouldFetch: boolean = false) => {
+export const useSeasonBadge = (
+  leagueId: string,
+  shouldFetch: boolean = false
+) => {
   return useQuery<string, Error>(
     ['seasonBadge', leagueId],
     () => fetchSeasonBadge(leagueId),
@@ -23,4 +26,4 @@ export const useSeasonBadge = (leagueId: string, shouldFetch: boolean = false) =
       refetchOnWindowFocus: false,
     }
   );
-}; 
+};

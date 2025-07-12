@@ -1,10 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
 import { LeaguesResponse, SeasonsResponse, ApiError } from '../types/api';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://www.thesportsdb.com/api/v1/json/3';
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL ||
+  'https://www.thesportsdb.com/api/v1/json/3';
 
 // Cache configuration
-const CACHE_DURATION = parseInt(process.env.REACT_APP_CACHE_DURATION || '86400000'); // 24 hours in milliseconds
+const CACHE_DURATION = parseInt(
+  process.env.REACT_APP_CACHE_DURATION || '86400000'
+); // 24 hours in milliseconds
 
 interface CacheItem<T> {
   data: T;
@@ -59,11 +63,11 @@ const api = axios.create({
 
 // Request interceptor for logging
 api.interceptors.request.use(
-  (config) => {
+  config => {
     console.log(`Making request to: ${config.url}`);
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
@@ -73,7 +77,7 @@ api.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error) => {
+  error => {
     console.error('API Error:', error);
     const apiError: ApiError = {
       message: error.response?.data?.message || 'An unexpected error occurred',
@@ -83,9 +87,11 @@ api.interceptors.response.use(
   }
 );
 
-export const fetchAllLeagues = async (): Promise<LeaguesResponse['leagues']> => {
+export const fetchAllLeagues = async (): Promise<
+  LeaguesResponse['leagues']
+> => {
   const cacheKey = getCacheKey('/all_leagues.php');
-  
+
   // Try to get cached data first
   const cachedData = getCachedData<LeaguesResponse['leagues']>(cacheKey);
   if (cachedData) {
@@ -93,12 +99,13 @@ export const fetchAllLeagues = async (): Promise<LeaguesResponse['leagues']> => 
   }
 
   try {
-    const response: AxiosResponse<LeaguesResponse> = await api.get('/all_leagues.php');
+    const response: AxiosResponse<LeaguesResponse> =
+      await api.get('/all_leagues.php');
     const leagues = response.data.leagues || [];
-    
+
     // Cache the response
     setCachedData(cacheKey, leagues);
-    
+
     return leagues;
   } catch (error) {
     console.error('Error fetching leagues:', error);
@@ -107,8 +114,10 @@ export const fetchAllLeagues = async (): Promise<LeaguesResponse['leagues']> => 
 };
 
 export const fetchSeasonBadge = async (leagueId: string): Promise<string> => {
-  const cacheKey = getCacheKey(`/search_all_seasons.php?badge=1&id=${leagueId}`);
-  
+  const cacheKey = getCacheKey(
+    `/search_all_seasons.php?badge=1&id=${leagueId}`
+  );
+
   // Try to get cached data first
   const cachedData = getCachedData<string>(cacheKey);
   if (cachedData) {
@@ -116,11 +125,13 @@ export const fetchSeasonBadge = async (leagueId: string): Promise<string> => {
   }
 
   try {
-    const response: AxiosResponse<SeasonsResponse> = await api.get(`/search_all_seasons.php?badge=1&id=${leagueId}`);
+    const response: AxiosResponse<SeasonsResponse> = await api.get(
+      `/search_all_seasons.php?badge=1&id=${leagueId}`
+    );
     const seasons = response.data.seasons || [];
-    
+
     let badgeUrl: string;
-    
+
     // Return the first season's badge if available
     if (seasons.length > 0 && seasons[0].strBadge) {
       badgeUrl = seasons[0].strBadge;
@@ -128,17 +139,18 @@ export const fetchSeasonBadge = async (leagueId: string): Promise<string> => {
       // Return a default badge if no badge is available
       badgeUrl = 'https://via.placeholder.com/150x150/333/666?text=League';
     }
-    
+
     // Cache the response
     setCachedData(cacheKey, badgeUrl);
-    
+
     return badgeUrl;
   } catch (error) {
     console.error('Error fetching season badge:', error);
-    const defaultBadge = 'https://via.placeholder.com/150x150/333/666?text=League';
+    const defaultBadge =
+      'https://via.placeholder.com/150x150/333/666?text=League';
     setCachedData(cacheKey, defaultBadge);
     return defaultBadge;
   }
 };
 
-export default api; 
+export default api;

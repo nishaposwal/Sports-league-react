@@ -4,7 +4,11 @@ import { useSeasonBadge } from '../hooks/useLeagues';
 import { LeagueCardProps } from '../types/api';
 
 const CardContainer = styled.div`
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
   border-radius: 12px;
   padding: 20px;
   cursor: pointer;
@@ -13,13 +17,13 @@ const CardContainer = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
-  
+
   &:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border-color: rgba(229, 9, 20, 0.5);
   }
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -27,15 +31,19 @@ const CardContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.1) 0%, transparent 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(229, 9, 20, 0.1) 0%,
+      transparent 100%
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  
+
   &:hover::before {
     opacity: 1;
   }
-  
+
   &:active {
     transform: translateY(-4px) scale(1.01);
   }
@@ -54,7 +62,7 @@ const Badge = styled.img`
   object-fit: cover;
   border: 2px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
-  
+
   ${CardContainer}:hover & {
     border-color: rgba(229, 9, 20, 0.8);
     transform: scale(1.1);
@@ -102,7 +110,7 @@ const DefaultBadge = styled.div`
   line-height: 1.2;
   transition: all 0.3s ease;
   cursor: pointer;
-  
+
   ${CardContainer}:hover & {
     border-color: rgba(229, 9, 20, 0.8);
     transform: scale(1.1);
@@ -136,22 +144,25 @@ const LeagueCard: React.FC<LeagueCardProps> = ({ league }) => {
       <BadgeContainer>
         {!showBadge ? (
           <DefaultBadge>
-              Click to<br />View Badge
-            </DefaultBadge>
+            Click to
+            <br />
+            View Badge
+          </DefaultBadge>
         ) : badgeLoading ? (
           <LoadingBadge />
         ) : (
-          <Badge 
-            src={badgeUrl} 
+          <Badge
+            src={badgeUrl}
             alt={`${league.strLeague} badge`}
-            onError={(e) => {
+            onError={e => {
               const target = e.target as HTMLImageElement;
-              target.src = 'https://via.placeholder.com/80x80/333/666?text=League';
+              target.src =
+                'https://via.placeholder.com/80x80/333/666?text=League';
             }}
           />
         )}
       </BadgeContainer>
-      
+
       <LeagueName>{league.strLeague}</LeagueName>
       <SportType>{league.strSport}</SportType>
       {league.strLeagueAlternate && (
@@ -161,4 +172,4 @@ const LeagueCard: React.FC<LeagueCardProps> = ({ league }) => {
   );
 };
 
-export default LeagueCard; 
+export default LeagueCard;

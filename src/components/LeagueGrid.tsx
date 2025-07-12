@@ -14,13 +14,13 @@ const Grid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
   margin-top: 20px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     padding: 0 10px;
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 15px;
@@ -32,12 +32,12 @@ const LoadingContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
   margin-top: 20px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 15px;
@@ -45,7 +45,11 @@ const LoadingContainer = styled.div`
 `;
 
 const LoadingCard = styled.div`
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
   border-radius: 12px;
   padding: 20px;
   height: 200px;
@@ -70,12 +74,12 @@ const LoadingText = styled.div`
   animation: shimmer 1.5s infinite;
   border-radius: 4px;
   margin: 8px 0;
-  
+
   &:nth-child(2) {
     width: 80%;
     margin: 8px auto;
   }
-  
+
   &:nth-child(3) {
     width: 60%;
     margin: 8px auto;
@@ -106,11 +110,11 @@ const ResultsCount = styled.div`
   font-size: 0.9rem;
 `;
 
-const LeagueGrid: React.FC<LeagueGridProps> = ({ 
-  leagues, 
-  isLoading, 
-  searchTerm, 
-  selectedSport 
+const LeagueGrid: React.FC<LeagueGridProps> = ({
+  leagues,
+  isLoading,
+  searchTerm,
+  selectedSport,
 }) => {
   if (isLoading) {
     return (
@@ -135,10 +139,9 @@ const LeagueGrid: React.FC<LeagueGridProps> = ({
         <EmptyState>
           <EmptyStateTitle>No leagues found</EmptyStateTitle>
           <EmptyStateText>
-            {searchTerm || selectedSport 
+            {searchTerm || selectedSport
               ? `No leagues match your current filters. Try adjusting your search or sport selection.`
-              : 'Unable to load leagues. Please try again later.'
-            }
+              : 'Unable to load leagues. Please try again later.'}
           </EmptyStateText>
         </EmptyState>
       </GridContainer>
@@ -152,7 +155,7 @@ const LeagueGrid: React.FC<LeagueGridProps> = ({
         {(searchTerm || selectedSport) && ' matching your filters'}
       </ResultsCount>
       <Grid>
-        {leagues.map((league) => (
+        {leagues.map(league => (
           <LeagueCard key={league.idLeague} league={league} />
         ))}
       </Grid>
@@ -160,4 +163,4 @@ const LeagueGrid: React.FC<LeagueGridProps> = ({
   );
 };
 
-export default LeagueGrid; 
+export default LeagueGrid;

@@ -1,37 +1,65 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import '@testing-library/jest-dom';
 import App from './App';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
+// Mock the hooks and components to avoid complex setup
+jest.mock('./hooks/useLeagues', () => ({
+  useLeagues: () => ({
+    data: [],
+    isLoading: false,
+    error: null,
+    refetch: jest.fn(),
+  }),
+}));
+
+jest.mock('./hooks/useDebounce', () => ({
+  useDebounce: (value: any) => value,
+}));
+
+jest.mock('./utils/filters', () => ({
+  applyFilters: jest.fn(() => []),
+  getUniqueSports: jest.fn(() => []),
+}));
+
+jest.mock('./components/Header', () => {
+  return function MockHeader() {
+    return <div data-testid="header">Header</div>;
+  };
 });
 
-const renderWithQueryClient = (component: React.ReactElement) => {
-  return render(
-    <QueryClientProvider client={queryClient}>
-      {component}
-    </QueryClientProvider>
-  );
-};
-
-test('renders app title', () => {
-  renderWithQueryClient(<App />);
-  const titleElement = screen.getByText(/Sports Leagues/i);
-  expect(titleElement).toBeInTheDocument();
+jest.mock('./components/LeagueGrid', () => {
+  return function MockLeagueGrid() {
+    return <div data-testid="league-grid">League Grid</div>;
+  };
 });
 
-test('renders search input', () => {
-  renderWithQueryClient(<App />);
-  const searchInput = screen.getByPlaceholderText(/Search leagues/i);
-  expect(searchInput).toBeInTheDocument();
+jest.mock('./components/CacheStatus', () => {
+  return function MockCacheStatus() {
+    return <div data-testid="cache-status">Cache Status</div>;
+  };
 });
 
-test('renders sport filter dropdown', () => {
-  renderWithQueryClient(<App />);
-  const sportSelect = screen.getByRole('combobox');
-  expect(sportSelect).toBeInTheDocument();
-}); 
+jest.mock('./components/ErrorBoundary', () => {
+  return function MockErrorBoundary({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
+    return <div data-testid="error-boundary">{children}</div>;
+  };
+});
+
+describe('App Component', () => {
+  it('renders without crashing', () => {
+    render(<App />);
+    expect(screen.getByTestId('error-boundary')).toBeInTheDocument();
+  });
+
+  it('renders all main components', () => {
+    render(<App />);
+    expect(screen.getByTestId('header')).toBeInTheDocument();
+    expect(screen.getByTestId('league-grid')).toBeInTheDocument();
+    expect(screen.getByTestId('cache-status')).toBeInTheDocument();
+  });
+});

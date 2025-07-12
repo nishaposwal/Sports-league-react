@@ -2,13 +2,16 @@
 
 export const clearApiCache = (): void => {
   try {
-    const keys = Object.keys(localStorage);
-    const cacheKeys = keys.filter(key => key.startsWith('api_cache_'));
-    
+    const cacheKeys: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('api_cache_')) {
+        cacheKeys.push(key);
+      }
+    }
     cacheKeys.forEach(key => {
       localStorage.removeItem(key);
     });
-    
     console.log(`Cleared ${cacheKeys.length} cached items`);
   } catch (error) {
     console.error('Error clearing cache:', error);
@@ -17,9 +20,13 @@ export const clearApiCache = (): void => {
 
 export const getCacheInfo = (): { totalItems: number; totalSize: number } => {
   try {
-    const keys = Object.keys(localStorage);
-    const cacheKeys = keys.filter(key => key.startsWith('api_cache_'));
-    
+    const cacheKeys: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('api_cache_')) {
+        cacheKeys.push(key);
+      }
+    }
     let totalSize = 0;
     cacheKeys.forEach(key => {
       const item = localStorage.getItem(key);
@@ -27,7 +34,6 @@ export const getCacheInfo = (): { totalItems: number; totalSize: number } => {
         totalSize += new Blob([item]).size;
       }
     });
-    
     return {
       totalItems: cacheKeys.length,
       totalSize: totalSize, // in bytes
@@ -47,8 +53,8 @@ export const isCacheValid = (key: string): boolean => {
     const now = Date.now();
     const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
-    return (now - cacheItem.timestamp) < CACHE_DURATION;
+    return now - cacheItem.timestamp < CACHE_DURATION;
   } catch (error) {
     return false;
   }
-}; 
+};

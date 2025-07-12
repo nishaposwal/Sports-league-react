@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { HeaderProps } from '../types/api';
 import { clearApiCache } from '../utils/cache';
 
-
-
 const HeaderContainer = styled.header`
-  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
   padding: 20px 0;
   position: sticky;
   top: 0;
@@ -32,7 +34,7 @@ const Title = styled.h1`
   background-clip: text;
   text-align: center;
   margin: 0;
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -44,7 +46,7 @@ const FiltersContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 15px;
@@ -57,7 +59,7 @@ const SearchContainer = styled.div`
   max-width: 400px;
 `;
 
-const SearchIndicator = styled.div<{ isSearching?: boolean }>`
+const SearchIndicator = styled.div<{ $isSearching?: boolean }>`
   position: absolute;
   right: 15px;
   top: 50%;
@@ -70,14 +72,20 @@ const SearchIndicator = styled.div<{ isSearching?: boolean }>`
   animation: spin 1s linear infinite;
   opacity: 0;
   transition: opacity 0.3s ease;
-  
-  ${props => props.isSearching && `
+
+  ${props =>
+    props.$isSearching &&
+    `
     opacity: 1;
   `}
-  
+
   @keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
+    0% {
+      transform: translateY(-50%) rotate(0deg);
+    }
+    100% {
+      transform: translateY(-50%) rotate(360deg);
+    }
   }
 `;
 
@@ -91,11 +99,11 @@ const SearchInput = styled.input`
   font-size: 16px;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
-  
+
   &::placeholder {
     color: rgba(255, 255, 255, 0.6);
   }
-  
+
   &:focus {
     outline: none;
     background: rgba(255, 255, 255, 0.15);
@@ -113,13 +121,13 @@ const SportSelect = styled.select`
   backdrop-filter: blur(10px);
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   &:focus {
     outline: none;
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.5);
   }
-  
+
   option {
     background: #1a1a1a;
     color: #ffffff;
@@ -137,24 +145,24 @@ const ClearAllButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
 `;
 
-const Header: React.FC<HeaderProps> = ({ 
-  searchTerm, 
-  onSearchChange, 
-  selectedSport, 
-  onSportChange, 
+const Header: React.FC<HeaderProps> = ({
+  searchTerm,
+  onSearchChange,
+  selectedSport,
+  onSportChange,
   sports,
-  isSearching = false
+  isSearching = false,
 }) => {
   const handleClearAll = () => {
     // Clear search and sport filters
@@ -174,13 +182,13 @@ const Header: React.FC<HeaderProps> = ({
               type="text"
               placeholder="Search leagues..."
               value={searchTerm}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={e => onSearchChange(e.target.value)}
             />
-            <SearchIndicator isSearching={isSearching} />
+            <SearchIndicator $isSearching={isSearching} />
           </SearchContainer>
           <SportSelect
             value={selectedSport}
-            onChange={(e) => onSportChange(e.target.value)}
+            onChange={e => onSportChange(e.target.value)}
           >
             <option value="">All Sports</option>
             {sports.map((sport: string) => (
@@ -189,13 +197,11 @@ const Header: React.FC<HeaderProps> = ({
               </option>
             ))}
           </SportSelect>
-          <ClearAllButton onClick={handleClearAll}>
-            Clear All
-          </ClearAllButton>
+          <ClearAllButton onClick={handleClearAll}>Clear All</ClearAllButton>
         </FiltersContainer>
       </HeaderContent>
     </HeaderContainer>
   );
 };
 
-export default Header; 
+export default Header;

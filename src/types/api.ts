@@ -51,4 +51,4 @@ export interface HeaderProps {
   onSportChange: (value: string) => void;
   sports: string[];
   isSearching?: boolean;
-} 
+}

@@ -29,7 +29,7 @@ const ClearButton = styled.button`
   font-size: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: rgba(229, 9, 20, 1);
   }
@@ -74,15 +74,14 @@ const CacheStatus: React.FC = () => {
       onMouseLeave={() => setIsVisible(false)}
     >
       <CacheInfo>
-        📦 Cache: {cacheInfo.totalItems} items ({formatBytes(cacheInfo.totalSize)})
+        📦 Cache: {cacheInfo.totalItems} items (
+        {formatBytes(cacheInfo.totalSize)})
       </CacheInfo>
       {isVisible && (
-        <ClearButton onClick={handleClearCache}>
-          Clear Cache
-        </ClearButton>
+        <ClearButton onClick={handleClearCache}>Clear Cache</ClearButton>
       )}
     </CacheStatusContainer>
   );
 };
 
-export default CacheStatus; 
+export default CacheStatus;
