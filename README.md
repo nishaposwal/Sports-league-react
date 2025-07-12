@@ -1,6 +1,6 @@
 # Sports Leagues React App
 
-A modern single-page application (SPA) built with React and TypeScript that displays sports leagues with advanced filtering capabilities and interactive features. Features a Netflix-like UI with comprehensive caching and real-time search functionality.
+A modern single-page application (SPA) built with React and TypeScript that displays sports leagues with advanced filtering capabilities and interactive features. Features a Netflix-like UI with comprehensive caching, real-time search functionality, and enterprise-level code quality controls.
 
 ## 🚀 Features
 
@@ -15,7 +15,7 @@ A modern single-page application (SPA) built with React and TypeScript that disp
 - **Netflix-like UI**: Modern, dark theme with smooth animations and hover effects
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Loading States**: Visual feedback during data fetching with spinning indicators
-- **Error Handling**: Graceful error handling with retry functionality
+- **Error Handling**: Graceful error handling with retry functionality and Error Boundaries
 
 ### Performance & Caching
 - **24-Hour Caching**: API responses cached in localStorage for a full day
@@ -23,10 +23,12 @@ A modern single-page application (SPA) built with React and TypeScript that disp
 - **Debounced Search**: Prevents excessive API calls during typing
 - **Optimized Rendering**: React Query for efficient data management
 
-### Type Safety
+### Type Safety & Code Quality
 - **Full TypeScript**: Complete type safety with comprehensive interfaces
 - **API Type Definitions**: Strongly typed API responses and component props
 - **Development Experience**: Enhanced IntelliSense and error detection
+- **Pre-commit Hooks**: Automatic code formatting and linting before commits
+- **Test Coverage**: Comprehensive unit tests with Jest and React Testing Library
 
 ## 🔌 API Integration
 
@@ -52,6 +54,14 @@ The app consumes the following APIs:
 ### HTTP & Utilities
 - **Axios**: For HTTP requests with interceptors
 - **Custom Cache Utils**: LocalStorage-based caching system
+
+### Testing & Quality Assurance
+- **Jest**: JavaScript testing framework
+- **React Testing Library**: Testing utilities for React components
+- **ESLint**: Code linting and error detection
+- **Prettier**: Code formatting for consistency
+- **Husky**: Git hooks for pre-commit automation
+- **Lint-staged**: Run linters on staged files only
 
 ### Deployment & Hosting
 - **Firebase Hosting**: Production deployment and hosting
@@ -88,12 +98,18 @@ npm start
 
 - `npm start`: Runs the app in development mode
 - `npm test`: Launches the test runner
+- `npm run test:coverage`: Runs tests with coverage report
 - `npm run build`: Builds the app for production
 - `npm run build:prod`: Builds with production environment
 - `npm run deploy`: Builds and deploys to Firebase
 - `npm run deploy:hosting`: Deploy only hosting (faster)
 - `npm run serve`: Serve production build locally
 - `npm run eject`: Ejects from Create React App (not recommended)
+- `npm run format`: Format code with Prettier
+- `npm run format:check`: Check code formatting
+- `npm run lint`: Run ESLint
+- `npm run lint:fix`: Fix ESLint issues automatically
+- `npm run pre-commit`: Run pre-commit checks
 
 ## 📁 Project Structure
 
@@ -103,7 +119,8 @@ src/
 │   ├── Header.tsx      # Header with search, filters, and debounce
 │   ├── LeagueCard.tsx  # Individual league card component
 │   ├── LeagueGrid.tsx  # Grid layout for league cards
-│   └── CacheStatus.tsx # Cache status indicator
+│   ├── CacheStatus.tsx # Cache status indicator
+│   └── ErrorBoundary.tsx # Error boundary for error handling
 ├── hooks/              # Custom React hooks
 │   ├── useLeagues.ts   # Data fetching hooks with React Query
 │   └── useDebounce.ts  # Debounce hook for search optimization
@@ -114,9 +131,17 @@ src/
 ├── utils/              # Utility functions
 │   ├── cache.ts        # LocalStorage caching utilities
 │   └── filters.ts      # Filtering logic
+├── components/__tests__/ # Component tests
+│   └── Header.test.tsx # Header component tests
+├── hooks/__tests__/    # Hook tests
+│   └── useDebounce.test.ts # Debounce hook tests
+├── utils/__tests__/    # Utility tests
+│   └── filters.test.ts # Filter utility tests
 ├── App.tsx             # Main application component
+├── App.test.tsx        # App component tests
 ├── index.tsx           # Application entry point
-└── index.css           # Global styles
+├── index.css           # Global styles
+└── setupTests.ts       # Test setup configuration
 ```
 
 ## 🎯 Features in Detail
@@ -140,6 +165,12 @@ src/
 - **Cache Management**: Clear cache functionality with status indicator
 - **Optimized Performance**: Reduces API calls and improves user experience
 
+### Error Handling & Resilience
+- **Error Boundaries**: React Error Boundaries for graceful error handling
+- **Retry Mechanisms**: Automatic retry for failed API calls
+- **Fallback UI**: User-friendly error states and loading indicators
+- **Development Debugging**: Detailed error information in development mode
+
 ### TypeScript Implementation
 - **API Types**: Strongly typed API responses
 - **Component Props**: Type-safe component interfaces
@@ -162,6 +193,27 @@ src/
 - **Responsive Grid**: Adapts to different screen sizes
 - **Loading Indicators**: Visual feedback during data fetching
 - **Error States**: User-friendly error messages
+- **Accessibility**: Semantic HTML and keyboard navigation
+
+## 🧪 Testing & Quality Assurance
+
+### Test Coverage (Cursor is used to write unit tests)
+- **Component Tests**: Comprehensive tests for all React components
+- **Hook Tests**: Unit tests for custom hooks with 100% coverage
+- **Utility Tests**: Tests for utility functions and helpers
+- **Integration Tests**: End-to-end functionality testing
+
+### Code Quality Tools (Chat gpt + cursur for implementation support)
+- **ESLint**: Code linting with TypeScript support
+- **Prettier**: Automatic code formatting
+- **Husky**: Git hooks for pre-commit automation
+- **Lint-staged**: Efficient linting of staged files only
+
+### Pre-commit Workflow (Chat gpt + cursur for implementation support)
+- **Automatic Formatting**: Code is formatted with Prettier before commit
+- **Lint Checking**: ESLint runs and auto-fixes issues
+- **Test Execution**: All tests must pass before commit
+- **Quality Gates**: Commits are blocked if quality checks fail
 
 ## 🌐 Browser Support
 
@@ -183,9 +235,16 @@ The app is deployed on Firebase Hosting with automatic builds and environment-sp
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
 4. Add tests if applicable
-5. Commit your changes (`git commit -m 'Add some amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+5. Run quality checks: `npm run lint && npm test`
+6. Commit your changes (`git commit -m 'Add some amazing feature'`)
+7. Push to the branch (`git push origin feature/amazing-feature`)
+8. Open a Pull Request
+
+### Development Workflow
+- **Pre-commit Hooks**: Automatically format and lint code
+- **Test Requirements**: All tests must pass before commit
+- **Code Quality**: ESLint and Prettier ensure consistent code style
+- **Type Safety**: TypeScript prevents type-related bugs
 
 ## 📄 License
 
@@ -199,6 +258,9 @@ This project is licensed under the MIT License.
 - Features debounced search for optimal performance
 - Fully responsive with Netflix-inspired design
 - Comprehensive TypeScript implementation for type safety
+- Enterprise-level code quality with pre-commit hooks
+- Comprehensive testing with Jest and React Testing Library
+- Error boundaries for robust error handling
 
 ## 🙏 Acknowledgments
 
@@ -207,4 +269,8 @@ This project is licensed under the MIT License.
 - **[Styled Components](https://styled-components.com/)**: For component-based styling
 - **[Create React App](https://create-react-app.dev/)**: For the initial project setup and build configuration
 - **[TypeScript](https://www.typescriptlang.org/)**: For type safety and better developer experience
+- **[Jest](https://jestjs.io/)**: For comprehensive testing framework
+- **[React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)**: For component testing utilities
+- **[Husky](https://typicode.github.io/husky/)**: For Git hooks and pre-commit automation
+- **[Prettier](https://prettier.io/)**: For code formatting and consistency
 
